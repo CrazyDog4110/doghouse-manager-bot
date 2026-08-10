@@ -72,6 +72,16 @@ async def yestrains(ctx, user: discord.User, reason: str=None):
     with open(DIRECTORY_TO_TRAIN_BLACKLIST_FILE, "w") as f:
          f.write(data)
 
+@bot.command()
+@commands.is_owner()
+async def stop(ctx):
+    if ctx.author.id == bot.owner_id:
+        await ctx.send("Shutting Down...")
+        await ctx.bot.close()
+        quit()
+    else:
+         ctx.send("No lol")
+
 @bot.event
 async def on_member_join(member):
     # Obtain user id's in blacklist file
@@ -81,12 +91,12 @@ async def on_member_join(member):
         if str(member.id) in data:
             notrainrole = discord.utils.get(member.guild.roles, id=int(NO_TRAIN_ROLE))
             await member.add_roles(notrainrole)
-            
+
 @bot.event       
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send(f"You do not have the required permissions to run this command!", ephemeral= True)
     else:
-         await ctx.send("<@902784993301004348> Something broke")
+         await ctx.send("<@902784993301004348> "+ str(error))
 
 bot.run(TOKEN)
