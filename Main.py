@@ -81,6 +81,8 @@ async def on_member_join(member):
         if str(member.id) in data:
             notrainrole = discord.utils.get(member.guild.roles, id=int(NO_TRAIN_ROLE))
             await member.add_roles(notrainrole)
+            
+@bot.event       
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send(f"You do not have the required permissions to run this command!", ephemeral= True)
