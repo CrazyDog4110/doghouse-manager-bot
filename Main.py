@@ -103,6 +103,9 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send(f"You do not have the required permissions to run this command!", ephemeral= True)
     else:
+         logchannel = discord.utils.get(ctx.guild.channels, id=int(ERROR_LOGGING_CHANNEL))
          await ctx.send("<@902784993301004348> "+ str(error))
+         await logchannel.send("An exception occoured: "+ str(error))
+         print(str(error))
 
 bot.run(TOKEN)
