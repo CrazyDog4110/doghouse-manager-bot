@@ -9,6 +9,8 @@ TOKEN = os.getenv("TOKEN")
 PREFIX = os.getenv("PREFIX")
 NO_TRAIN_ROLE = os.getenv("NO_TRAIN_ROLE")
 MAIN_GUILD = os.getenv("MAIN_GUILD")
+ERROR_LOGGING_CHANNEL = os.getenv("ERROR_LOGGING_CHANNEL")
+MOD_LOGGING_CHANNEL = os.getenv("MOD_LOGGING_CHANNEL")
 DIRECTORY_TO_TRAIN_BLACKLIST_FILE = os.getenv("DIRECTORY_TO_TRAIN_BLACKLIST_FILE")
 
 intents = discord.Intents.default()
@@ -29,10 +31,12 @@ async def notrains(ctx, user: discord.User, reason: str=None):
         reason = "No reason provided."
     # Get No Train Role Object
     notrainrole = discord.utils.get(ctx.guild.roles, id=int(NO_TRAIN_ROLE))
+    modlogs = discord.utils.get(ctx.guild.channels, id=int(MOD_LOGGING_CHANNEL))
     user = await ctx.guild.fetch_member(user.id)
     # Attempt to apply role to user
     try:
         await user.add_roles(notrainrole)
+        await modlogs.send(ctx.author.name + " removed " + user.name + "'s access from the train channel. Reason: " + reason)
     except:
         await ctx.send("Failed to give role to user, prehaps my role isn't high enough in the hierachy.")
 
@@ -54,9 +58,11 @@ async def yestrains(ctx, user: discord.User, reason: str=None):
     if reason == None:
             reason = "No reason provided."
     notrainrole = discord.utils.get(ctx.guild.roles, id=int(NO_TRAIN_ROLE))
+    modlogs = discord.utils.get(ctx.guild.channels, id=int(MOD_LOGGING_CHANNEL))
     user = await ctx.guild.fetch_member(user.id)
     try:
         await user.remove_roles(notrainrole)
+        await modlogs.send(ctx.author.name + " reinstated " + user.name + "'s access from the train channel. Reason: " + reason)
     except:
         await ctx.send("Failed to remove role to user, prehaps my role isn't high enough in the hierachy.")
 
