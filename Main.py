@@ -88,6 +88,7 @@ async def stop(ctx):
     else:
          ctx.send("No lol")
 
+# prevent users from rejoining to remove blacklist roles
 @bot.event
 async def on_member_join(member):
     # Obtain user id's in blacklist file
