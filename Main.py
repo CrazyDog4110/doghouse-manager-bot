@@ -9,6 +9,7 @@ TOKEN = os.getenv("TOKEN")
 PREFIX = os.getenv("PREFIX")
 NO_TRAIN_ROLE = os.getenv("NO_TRAIN_ROLE")
 MAIN_GUILD = os.getenv("MAIN_GUILD")
+LOGGING_CHANNEL = os.getenv("LOGGING_CHANNEL")
 DIRECTORY_TO_TRAIN_BLACKLIST_FILE = os.getenv("DIRECTORY_TO_TRAIN_BLACKLIST_FILE")
 
 intents = discord.Intents.default()
