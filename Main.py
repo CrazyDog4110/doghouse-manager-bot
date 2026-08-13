@@ -36,7 +36,7 @@ async def notrains(ctx, user: discord.User, *, reason: str=None):
     # Attempt to apply role to user
     try:
         await user.add_roles(notrainrole)
-        await modlogs.send(ctx.author.name + " removed " + user.name + "'s access from the train channel. Reason: " + reason)
+        await modlogs.send(ctx.author.name + " removed " + user.name + "'s access to the train channel. Reason: " + reason)
     except:
         await ctx.send("Failed to give role to user, prehaps my role isn't high enough in the hierachy.")
 
@@ -62,7 +62,7 @@ async def yestrains(ctx, user: discord.User, *, reason: str=None):
     user = await ctx.guild.fetch_member(user.id)
     try:
         await user.remove_roles(notrainrole)
-        await modlogs.send(ctx.author.name + " reinstated " + user.name + "'s access from the train channel. Reason: " + reason)
+        await modlogs.send(ctx.author.name + " reinstated " + user.name + "'s access to the train channel. Reason: " + reason)
     except:
         await ctx.send("Failed to remove role to user, prehaps my role isn't high enough in the hierachy.")
 
