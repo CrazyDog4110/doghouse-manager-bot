@@ -26,7 +26,7 @@ async def on_ready():
 # No train command, removes user from the train channel
 @bot.command()
 @commands.has_permissions(moderate_members=True)
-async def notrains(ctx, user: discord.User, reason: str=None):
+async def notrains(ctx, user: discord.User, *, reason: str=None):
     if reason == None:
         reason = "No reason provided."
     # Get No Train Role Object
@@ -54,7 +54,7 @@ async def notrains(ctx, user: discord.User, reason: str=None):
 # Yes train command, does the opposite of above
 @bot.command()
 @commands.has_permissions(moderate_members=True)
-async def yestrains(ctx, user: discord.User, reason: str=None):
+async def yestrains(ctx, user: discord.User, *, reason: str=None):
     if reason == None:
             reason = "No reason provided."
     notrainrole = discord.utils.get(ctx.guild.roles, id=int(NO_TRAIN_ROLE))
@@ -79,6 +79,17 @@ async def yestrains(ctx, user: discord.User, reason: str=None):
          f.write(data)
 
 @bot.command()
+@commands.has_permissions(kick_members=True)
+async def scamkick(ctx, user: discord.User):
+     user = await ctx.guild.fetch_member(user.id)
+     modlogs = discord.utils.get(ctx.guild.channels, id=int(MOD_LOGGING_CHANNEL))
+     await user.send("Your account was hacked and sent scams in our server, to prevent this, your account was kicked. Rejoin by using this link: https://discord.gg/MYWbvN2yvc")
+     await user.ban(delete_message_seconds=86400, reason="Hacked Account")
+     await user.unban(reason="Softban removal")
+     await ctx.send(user.name+" fell for a free robux scam and got hacked.")
+     await modlogs.send(ctx.author.name+" scam kicked "+user.name)
+
+@bot.command()
 @commands.is_owner()
 async def stop(ctx):
     if ctx.author.id == bot.owner_id:
@@ -88,7 +99,6 @@ async def stop(ctx):
     else:
          ctx.send("No lol")
 
-# prevent users from rejoining to remove blacklist roles
 @bot.event
 async def on_member_join(member):
     # Obtain user id's in blacklist file
@@ -105,7 +115,7 @@ async def on_command_error(ctx, error):
         await ctx.send(f"You do not have the required permissions to run this command!", ephemeral= True)
     else:
          logchannel = discord.utils.get(ctx.guild.channels, id=int(ERROR_LOGGING_CHANNEL))
-         await ctx.send("<@902784993301004348> "+ str(error))
+         await ctx.send(str(error))
          await logchannel.send("An exception occoured: "+ str(error))
          print(str(error))
 
