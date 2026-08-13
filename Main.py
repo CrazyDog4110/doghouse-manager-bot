@@ -81,11 +81,15 @@ async def yestrains(ctx, user: discord.User, *, reason: str=None):
 @bot.command()
 @commands.has_permissions(kick_members=True)
 async def scamkick(ctx, user: discord.User):
+     # Get the user to softban's object
      user = await ctx.guild.fetch_member(user.id)
      modlogs = discord.utils.get(ctx.guild.channels, id=int(MOD_LOGGING_CHANNEL))
+     # notify the user
      await user.send("Your account was hacked and sent scams in our server, to prevent this, your account was kicked. Rejoin by using this link: https://discord.gg/MYWbvN2yvc")
+     # ban and unban the user to remove their previous messages
      await user.ban(delete_message_seconds=86400, reason="Hacked Account")
      await user.unban(reason="Softban removal")
+     # Send success message and log the action
      await ctx.send(user.name+" fell for a free robux scam and got hacked.")
      await modlogs.send(ctx.author.name+" scam kicked "+user.name)
 
