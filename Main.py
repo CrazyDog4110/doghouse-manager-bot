@@ -108,7 +108,7 @@ async def nospeedrun(ctx, user: discord.User, *, reason: str=None):
     except:
         await ctx.send(user.name+" is now a slowrunner.\n-# User disabled direct messages so I wasn't able to notify them.")
 
-# Yes train command, does the opposite of above
+# Yes speedrun command, does the opposite of above
 @bot.command()
 @commands.has_permissions(moderate_members=True)
 async def yesspeedrun(ctx, user: discord.User, *, reason: str=None):
