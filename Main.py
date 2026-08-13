@@ -108,7 +108,7 @@ async def nospeedrun(ctx, user: discord.User, *, reason: str=None):
     except:
         await ctx.send(user.name+" is now a slowrunner.\n-# User disabled direct messages so I wasn't able to notify them.")
 
-# Yes speedrun command, does the opposite of above
+# Yes train command, does the opposite of above
 @bot.command()
 @commands.has_permissions(moderate_members=True)
 async def yesspeedrun(ctx, user: discord.User, *, reason: str=None):
@@ -142,10 +142,17 @@ async def scamkick(ctx, user: discord.User):
      user = await ctx.guild.fetch_member(user.id)
      modlogs = discord.utils.get(ctx.guild.channels, id=int(MOD_LOGGING_CHANNEL))
      # notify the user
-     await user.send("Your account was hacked and sent scams in our server, to prevent this, your account was kicked. Rejoin by using this link: https://discord.gg/MYWbvN2yvc")
+     try:
+         await user.send("Your account was hacked and sent scams in our server, to prevent this, your account was kicked. Rejoin by using this link: https://discord.gg/MYWbvN2yvc")
+     except:
+         pass
      # ban and unban the user to remove their previous messages
-     await user.ban(delete_message_seconds=86400, reason="Hacked Account")
-     await user.unban(reason="Softban removal")
+     try:
+        await user.ban(delete_message_seconds=86400, reason="Hacked Account")
+        await user.unban(reason="Softban removal")
+     except:
+          await ctx.send("I don't have permissions to softban this user.")
+          return
      # Send success message and log the action
      await ctx.send(user.name+" fell for a free robux scam and got hacked.")
      await modlogs.send(ctx.author.name+" scam kicked "+user.name)
@@ -159,6 +166,7 @@ async def stop(ctx):
         quit()
     else:
          ctx.send("No lol")
+         return
 
 @bot.event
 async def on_member_join(member):
