@@ -185,12 +185,18 @@ async def on_member_join(member):
                 nospeedrunrole = discord.utils.get(member.guild.roles, id=int(NO_SPEEDRUN_ROLE))
                 await member.add_roles(nospeedrunrole)
 
+@bot.command
+async def comeng(ctx):
+     ctx.send("Comeng is a bot for Crazy_Dog's discord server.\nThe source code is available at: https://github.com/CrazyDog4110/doghouse-manager-bot")
+
 @bot.event       
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send(f"You do not have the required permissions to run this command!", ephemeral= True)
     elif isinstance(error, commands.MissingRequiredArgument):
          await ctx.send(f"You are missing a required argument. Did you specify the user you wanted to run the action on?", ephemeral= True)
+    elif isinstance(error, commands.CommandNotFound):
+             pass
     else:
          logchannel = discord.utils.get(ctx.guild.channels, id=int(ERROR_LOGGING_CHANNEL))
          await ctx.send(str(error))
