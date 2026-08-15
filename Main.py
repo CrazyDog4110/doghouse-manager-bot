@@ -187,7 +187,7 @@ async def on_member_join(member):
 
 @bot.command()
 async def comeng(ctx):
-     ctx.send("Comeng is a bot for Crazy_Dog's discord server.\nThe source code is available at: https://github.com/CrazyDog4110/doghouse-manager-bot")
+     await ctx.send("Comeng is a bot for Crazy_Dog's discord server.\nThe source code is available at: https://github.com/CrazyDog4110/doghouse-manager-bot")
 
 @bot.event       
 async def on_command_error(ctx, error):
