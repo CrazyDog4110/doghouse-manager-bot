@@ -185,7 +185,7 @@ async def on_member_join(member):
                 nospeedrunrole = discord.utils.get(member.guild.roles, id=int(NO_SPEEDRUN_ROLE))
                 await member.add_roles(nospeedrunrole)
 
-@bot.command
+@bot.command()
 async def comeng(ctx):
      ctx.send("Comeng is a bot for Crazy_Dog's discord server.\nThe source code is available at: https://github.com/CrazyDog4110/doghouse-manager-bot")
 
