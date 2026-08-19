@@ -46,6 +46,8 @@ async def notrains(ctx, user: discord.User, *, reason: str=None):
     with open(DIRECTORY_TO_TRAIN_BLACKLIST_FILE, "a") as f:
                 f.write(str(user.id)+"\n")
 
+    await ctx.message.delete()
+
     # Attempt to DM user
     try:
         await user.send("Your access to the train channel was revoked. Given reason: "+reason)
@@ -68,17 +70,19 @@ async def yestrains(ctx, user: discord.User, *, reason: str=None):
     except:
         await ctx.send("Failed to remove role to user, prehaps my role isn't high enough in the hierachy.")
 
-    try:
-        await user.send("Your access to the train channel was reinstated. Given reason: "+reason)
-        await ctx.send(user.name+" has paid their fine and is allowed to re-board the train.")
-    except:
-        await ctx.send(user.name+" has paid their fine and is allowed to re-board the train.\n-# User disabled direct messages so I wasn't able to notify them.")    
-
     with open(DIRECTORY_TO_TRAIN_BLACKLIST_FILE, "r") as f:
                 data = f.read()
                 data = data.replace(str(user.id), "")
     with open(DIRECTORY_TO_TRAIN_BLACKLIST_FILE, "w") as f:
          f.write(data)
+
+    await ctx.message.delete()
+
+    try:
+        await user.send("Your access to the train channel was reinstated. Given reason: "+reason)
+        await ctx.send(user.name+" has paid their fine and is allowed to re-board the train.")
+    except:
+        await ctx.send(user.name+" has paid their fine and is allowed to re-board the train.\n-# User disabled direct messages so I wasn't able to notify them.")    
 
 # No speedrun command, removes user from the speedrunning channels
 @bot.command()
@@ -100,6 +104,8 @@ async def nospeedrun(ctx, user: discord.User, *, reason: str=None):
     # Add user's ID to a file to prevent them from rejoining to remove the role
     with open(DIRECTORY_TO_SPEEDRUN_BLACKLIST_FILE, "a") as f:
                 f.write(str(user.id)+"\n")
+
+    await ctx.message.delete()
 
     # Attempt to DM user
     try:
@@ -123,17 +129,19 @@ async def yesspeedrun(ctx, user: discord.User, *, reason: str=None):
     except:
         await ctx.send("Failed to remove role to user, prehaps my role isn't high enough in the hierachy.")
 
-    try:
-        await user.send("Your access to the speedrunning channels was reinstated. Given reason: "+reason)
-        await ctx.send(user.name+" is now speedy again.")
-    except:
-        await ctx.send(user.name+" is now speedy again.\n-# User disabled direct messages so I wasn't able to notify them.")    
-
     with open(DIRECTORY_TO_SPEEDRUN_BLACKLIST_FILE, "r") as f:
                 data = f.read()
                 data = data.replace(str(user.id), "")
     with open(DIRECTORY_TO_SPEEDRUN_BLACKLIST_FILE, "w") as f:
          f.write(data)
+
+    await ctx.message.delete()
+
+    try:
+        await user.send("Your access to the speedrunning channels was reinstated. Given reason: "+reason)
+        await ctx.send(user.name+" is now speedy again.")
+    except:
+        await ctx.send(user.name+" is now speedy again.\n-# User disabled direct messages so I wasn't able to notify them.")    
 
 @bot.command()
 @commands.has_permissions(kick_members=True)
@@ -154,6 +162,7 @@ async def scamkick(ctx, user: discord.User):
           await ctx.send("I don't have permissions to softban this user.")
           return
      # Send success message and log the action
+     await ctx.message.delete()
      await ctx.send(user.name+" fell for a free robux scam and got hacked.")
      await modlogs.send(ctx.author.name+" scam kicked "+user.name)
 
