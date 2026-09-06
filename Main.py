@@ -193,6 +193,9 @@ async def on_member_join(member):
             if str(member.id) in data:
                 nospeedrunrole = discord.utils.get(member.guild.roles, id=int(NO_SPEEDRUN_ROLE))
                 await member.add_roles(nospeedrunrole)
+    if member.id == 1228864356305866792:
+         bfrawgrole = discord.utils.get(member.guild.roles, id=int(1546083621868150834))
+         await member.add_roles(nospeedrunrole)
 
 @bot.command()
 async def comeng(ctx):
