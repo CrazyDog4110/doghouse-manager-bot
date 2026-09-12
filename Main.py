@@ -125,7 +125,7 @@ async def yesspeedrun(ctx, user: discord.User, *, reason: str=None):
     except:
         await ctx.send(user.name+" is now speedy.\n-# User disabled direct messages so I wasn't able to notify them.")
 
-@bot.command
+@bot.command()
 async def novc(ctx, user: discord.User, *, reason:str=None):
     if reason == None:
         reason = "No reason provided."
@@ -140,7 +140,7 @@ async def novc(ctx, user: discord.User, *, reason:str=None):
     except:
         await ctx.send(user.name+" is now mute.\n-# User disabled direct messages so I wasn't able to notify them.")
 
-@bot.command
+@bot.command()
 async def yesvc(ctx, user: discord.User, *, reason:str=None):
     if reason == None:
         reason = "No reason provided."
