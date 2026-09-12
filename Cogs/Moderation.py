@@ -8,6 +8,7 @@ dotenv.load_dotenv()
 NO_TRAIN_ROLE = os.getenv("NO_TRAIN_ROLE")
 NO_SPEEDRUN_ROLE = os.getenv("NO_SPEEDRUN_ROLE")
 NO_VC_ROLE = os.getenv("NO_VC_ROLE")
+NO_APPEALS_ROLE = os.getenv("NO_APPEALS_ROLE")
 ERROR_LOGGING_CHANNEL = os.getenv("ERROR_LOGGING_CHANNEL")
 MOD_LOGGING_CHANNEL = os.getenv("MOD_LOGGING_CHANNEL")
 
@@ -146,6 +147,38 @@ class Moderation(commands.Cog):
             await ctx.send(user.name+" is now audible again.\n-# User disabled direct messages so I wasn't able to notify them.")
 
     @commands.command()
+    @commands.has_permissions(moderate_members=True)
+    async def noappeals(self, ctx, user: discord.User, *, reason:str=None):
+        if reason == None:
+            reason = "No reason provided."
+        modlogs = discord.utils.get(ctx.guild.channels, id=int(MOD_LOGGING_CHANNEL))
+        # Blacklist user via function
+        await blacklist(ctx, int(NO_APPEALS_ROLE), user.id, reason)
+        await modlogs.send(ctx.author.name + " removed " + user.name + "'s access to the appeals channel. Reason: " + reason)
+        # Attempt to DM user
+        try:
+            await user.send("Your access to the appeals channel was revoked. Given reason: "+reason)
+            await ctx.send(user.name+" can no longer apologise for their previous wrong doing.")
+        except:
+            await ctx.send(user.name+" can no longer apologise for their previous wrong doing.\n-# User disabled direct messages so I wasn't able to notify them.")
+
+    @commands.command()
+    @commands.has_permissions(moderate_members=True)
+    async def yesappeals(self, ctx, user: discord.User, *, reason:str=None):
+        if reason == None:
+            reason = "No reason provided."
+        modlogs = discord.utils.get(ctx.guild.channels, id=int(MOD_LOGGING_CHANNEL))
+        # Blacklist user via function
+        await unblacklist(ctx, int(NO_APPEALS_ROLE), user.id, reason)
+        await modlogs.send(ctx.author.name + " reinstated " + user.name + "'s access to the voice channels. Reason: " + reason)
+        # Attempt to DM user
+        try:
+            await user.send("Your access to the appeals channel was reinstated. Given reason: "+reason)
+            await ctx.send(user.name+" is now forgivable again.")
+        except:
+            await ctx.send(user.name+" is now forgivable again.\n-# User disabled direct messages so I wasn't able to notify them.")
+
+    @commands.command()
     @commands.has_permissions(kick_members=True)
     async def scamkick(self, ctx, user: discord.User):
         # Get the user to softban's object
@@ -190,6 +223,12 @@ class Moderation(commands.Cog):
                     if str(member.id) in data:
                         novcrole = discord.utils.get(member.guild.roles, id=int(NO_VC_ROLE))
                         await member.add_roles(novcrole)
+        with open(str(NO_APPEALS_ROLE)+".txt", "r") as f:
+                            data = f.read().splitlines()
+                            # If the user who just joined has their ID in the blacklist file, add the role back.
+                            if str(member.id) in data:
+                                noappealsrole = discord.utils.get(member.guild.roles, id=int(NO_APPEALS_ROLE))
+                                await member.add_roles(noappealsrole)
         if member.id == 1228864356305866792:
             bfrawgrole = discord.utils.get(member.guild.roles, id=int(1546083621868150834))
             await member.add_roles(bfrawgrole)
