@@ -9,6 +9,7 @@ TOKEN = os.getenv("TOKEN")
 PREFIX = os.getenv("PREFIX")
 NO_TRAIN_ROLE = os.getenv("NO_TRAIN_ROLE")
 NO_SPEEDRUN_ROLE = os.getenv("NO_SPEEDRUN_ROLE")
+NO_VC_ROLE = os.getenv("NO_VC_ROLE")
 MAIN_GUILD = os.getenv("MAIN_GUILD")
 ERROR_LOGGING_CHANNEL = os.getenv("ERROR_LOGGING_CHANNEL")
 MOD_LOGGING_CHANNEL = os.getenv("MOD_LOGGING_CHANNEL")
@@ -124,6 +125,36 @@ async def yesspeedrun(ctx, user: discord.User, *, reason: str=None):
     except:
         await ctx.send(user.name+" is now speedy.\n-# User disabled direct messages so I wasn't able to notify them.")
 
+@bot.command
+async def novc(ctx, user: discord.User, *, reason:str=None):
+    if reason == None:
+        reason = "No reason provided."
+    modlogs = discord.utils.get(ctx.guild.channels, id=int(MOD_LOGGING_CHANNEL))
+    # Blacklist user via function
+    await blacklist(ctx, int(NO_VC_ROLE), user.id, reason)
+    await modlogs.send(ctx.author.name + " removed " + user.name + "'s access to the voice channels. Reason: " + reason)
+    # Attempt to DM user
+    try:
+        await user.send("Your access to the voice channels was revoked. Given reason: "+reason)
+        await ctx.send(user.name+" is now mute.")
+    except:
+        await ctx.send(user.name+" is now mute.\n-# User disabled direct messages so I wasn't able to notify them.")
+
+@bot.command
+async def yesvc(ctx, user: discord.User, *, reason:str=None):
+    if reason == None:
+        reason = "No reason provided."
+    modlogs = discord.utils.get(ctx.guild.channels, id=int(MOD_LOGGING_CHANNEL))
+    # Blacklist user via function
+    await unblacklist(ctx, int(NO_VC_ROLE), user.id, reason)
+    await modlogs.send(ctx.author.name + " reinstated " + user.name + "'s access to the voice channels. Reason: " + reason)
+    # Attempt to DM user
+    try:
+        await user.send("Your access to the voice channels was reinstated. Given reason: "+reason)
+        await ctx.send(user.name+" is now audible again.")
+    except:
+        await ctx.send(user.name+" is now audible again.\n-# User disabled direct messages so I wasn't able to notify them.")
+
 @bot.command()
 @commands.has_permissions(kick_members=True)
 async def scamkick(ctx, user: discord.User):
@@ -174,6 +205,12 @@ async def on_member_join(member):
             if str(member.id) in data:
                 nospeedrunrole = discord.utils.get(member.guild.roles, id=int(NO_SPEEDRUN_ROLE))
                 await member.add_roles(nospeedrunrole)
+    with open(str(NO_VC_ROLE)+".txt", "r") as f:
+                data = f.read().splitlines()
+                # If the user who just joined has their ID in the blacklist file, add the role back.
+                if str(member.id) in data:
+                    novcrole = discord.utils.get(member.guild.roles, id=int(NO_VC_ROLE))
+                    await member.add_roles(novcrole)
     if member.id == 1228864356305866792:
          bfrawgrole = discord.utils.get(member.guild.roles, id=int(1546083621868150834))
          await member.add_roles(bfrawgrole)
