@@ -23,6 +23,8 @@ bot = commands.Bot(command_prefix=PREFIX, intents=intents)
 async def on_ready():
     await bot.load_extension('Cogs.Moderation')
     await bot.load_extension('Cogs.Memes')
+    voiceChannel = bot.get_channel(1464761761428275431)
+    await voiceChannel.connect()
     print(f'We have logged in as {bot.user}')
 
 @bot.command()
