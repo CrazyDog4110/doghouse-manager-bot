@@ -22,6 +22,7 @@ bot = commands.Bot(command_prefix=PREFIX, intents=intents)
 @bot.event
 async def on_ready():
     await bot.load_extension('Cogs.Moderation')
+    await bot.load_extension('Cogs.Memes')
     print(f'We have logged in as {bot.user}')
 
 @bot.command()
