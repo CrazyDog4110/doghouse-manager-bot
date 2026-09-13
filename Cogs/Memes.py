@@ -65,7 +65,7 @@ class Memes(commands.Cog):
 
     @commands.command()
     async def checkpoint(self, ctx):
-        await ctx.send("https://www.twitch.tv/bfrawg6/clip/PuzzledCuriousNarwhalBrainSlug-6ViPGeFh9XNu-OTE <@1228864356305866792> EXPLAIN") 
+        await ctx.send("https://www.twitch.tv/bfrawg6/clip/PuzzledCuriousNarwhalBrainSlug-6ViPGeFh9XNu-OTE <@1228864356305866792> EXPLAIN", allowed_mentions=discord.AllowedMentions.none()) 
 
 async def setup(bot):
     await bot.add_cog(Memes(bot))
