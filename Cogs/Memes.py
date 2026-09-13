@@ -55,6 +55,9 @@ class Memes(commands.Cog):
     async def chudminyan(self, ctx):
         await ctx.send("https://files.catbox.moe/brhxnj.png")
     
+    @commands.command()
+    async def warm(self, ctx, user: discord.User):
+        await ctx.send(user.display_name+" has been warmed. User in now a toasty 75 degrees celcius.")
 
 async def setup(bot):
     await bot.add_cog(Memes(bot))
