@@ -55,6 +55,17 @@ class Memes(commands.Cog):
     async def chudminyan(self, ctx):
         await ctx.send("https://files.catbox.moe/brhxnj.png")
     
+    @commands.command()
+    async def warm(self, ctx, user: discord.User):
+        await ctx.send(user.display_name+" has been warmed. User in now a toasty 75 degrees celcius.")
+
+    @commands.command()
+    async def burn(self, ctx, user: discord.User):
+        await ctx.send(user.display_name+" has been burned. User in now a crispy 389 degrees celcius.")
+
+    @commands.command()
+    async def cp(self, ctx):
+        await ctx.send("https://www.twitch.tv/bfrawg6/clip/PuzzledCuriousNarwhalBrainSlug-6ViPGeFh9XNu <@1228864356305866792> EXPLAIN") 
 
 async def setup(bot):
     await bot.add_cog(Memes(bot))
