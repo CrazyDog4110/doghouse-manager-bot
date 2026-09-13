@@ -35,7 +35,7 @@ class Memes(commands.Cog):
             Maximum 2 sentences.
             """
         }
-    ]
+        ]
 
         conversation = conversations[ctx.author.id]
 
@@ -49,8 +49,12 @@ class Memes(commands.Cog):
                     "content": APIresponse.message.content
                 })
         await ctx.send(APIresponse.message.content)
-        
 
+
+    @commands.command(aliases=["fillet", "minyan", "chud", "fillet-minyan"])
+    async def chudminyan(self, ctx):
+        await ctx.send("https://files.catbox.moe/brhxnj.png")
+    
 
 async def setup(bot):
     await bot.add_cog(Memes(bot))
