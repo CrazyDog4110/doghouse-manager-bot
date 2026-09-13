@@ -64,7 +64,7 @@ class Memes(commands.Cog):
         await ctx.send(user.display_name+" has been burned. User in now a crispy 389 degrees celcius.")
 
     @commands.command()
-    async def cp(self, ctx):
+    async def checkpoint(self, ctx):
         await ctx.send("https://www.twitch.tv/bfrawg6/clip/PuzzledCuriousNarwhalBrainSlug-6ViPGeFh9XNu-OTE <@1228864356305866792> EXPLAIN") 
 
 async def setup(bot):
