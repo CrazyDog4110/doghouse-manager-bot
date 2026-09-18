@@ -16,11 +16,7 @@ async def blacklist(ctx, role, user, reason):
     role = discord.utils.get(ctx.guild.roles, id=int(role))
     user = await ctx.guild.fetch_member(user)
 
-    try:
-        await user.add_roles(role)
-    except:
-        await ctx.send("Failed to give role to user, prehaps my role isn't high enough in the hierachy.")
-        return
+    await user.add_roles(role)
     
     # Add user's ID to a file to prevent them from rejoining to remove the role
     with open(str(role.id)+".txt", "a") as f:
@@ -32,12 +28,8 @@ async def unblacklist(ctx, role, user, reason):
     role = discord.utils.get(ctx.guild.roles, id=int(role))
     user = await ctx.guild.fetch_member(user)
 
-    try:
-        await user.remove_roles(role)
-    except:
-        await ctx.send("Failed to remove role to user, prehaps my role isn't high enough in the hierachy.")
-        return
-    
+    await user.remove_roles(role)
+
     # Add user's ID to a file to prevent them from rejoining to remove the role
     with open(str(role.id)+".txt", "r") as f:
                 data = f.read()
@@ -55,9 +47,17 @@ class Moderation(commands.Cog):
         if reason == None:
             reason = "No reason provided."
         modlogs = discord.utils.get(ctx.guild.channels, id=int(MOD_LOGGING_CHANNEL))
+
         # Blacklist user via function
-        await blacklist(ctx, int(NO_TRAIN_ROLE), user.id, reason)
+        try: 
+            await blacklist(ctx, int(NO_TRAIN_ROLE), user.id, reason)
+        except:
+             await ctx.send("Failed to add role to user, prehaps my role isn't high enough in the hierachy.")
+             return
+
+        # Log changes to prevent mod abuse
         await modlogs.send(ctx.author.name + " removed " + user.name + "'s access to the train channel. Reason: " + reason)
+
         # Attempt to DM user
         try:
             await user.send("Your access to the train channel was revoked. Given reason: "+reason)
@@ -72,7 +72,14 @@ class Moderation(commands.Cog):
         if reason == None:
                 reason = "No reason provided."
         modlogs = discord.utils.get(ctx.guild.channels, id=int(MOD_LOGGING_CHANNEL))
-        await unblacklist(ctx, int(NO_TRAIN_ROLE), user.id, reason)
+
+        try: 
+            await unblacklist(ctx, int(NO_TRAIN_ROLE), user.id, reason)
+        except:
+             await ctx.send("Failed to remove role to user, prehaps my role isn't high enough in the hierachy.")
+             return
+        
+        # Log changes to prevent mod abuse
         await modlogs.send(ctx.author.name + " reinstated " + user.name + "'s access to the train channel. Reason: " + reason)
         try:
             await user.send("Your access to the train channel was reinstated. Given reason: "+reason)
@@ -87,9 +94,17 @@ class Moderation(commands.Cog):
         if reason == None:
             reason = "No reason provided."
         modlogs = discord.utils.get(ctx.guild.channels, id=int(MOD_LOGGING_CHANNEL))
+
         # Blacklist user via function
-        await blacklist(ctx, int(NO_SPEEDRUN_ROLE), user.id, reason)
+        try: 
+            await blacklist(ctx, int(NO_SPEEDRUN_ROLE), user.id, reason)
+        except:
+             await ctx.send("Failed to add role to user, prehaps my role isn't high enough in the hierachy.")
+             return
+
+        # Log changes to prevent mod abuse
         await modlogs.send(ctx.author.name + " removed " + user.name + "'s access to the speedrunning channels. Reason: " + reason)
+
         # Attempt to DM user
         try:
             await user.send("Your access to the speedrunning channels was revoked. Given reason: "+reason)
@@ -104,9 +119,17 @@ class Moderation(commands.Cog):
         if reason == None:
             reason = "No reason provided."
         modlogs = discord.utils.get(ctx.guild.channels, id=int(MOD_LOGGING_CHANNEL))
-        # Blacklist user via function
-        await unblacklist(ctx, int(NO_SPEEDRUN_ROLE), user.id, reason)
+
+        # unblacklist user via function
+        try: 
+            await unblacklist(ctx, int(NO_SPEEDRUN_ROLE), user.id, reason)
+        except:
+             await ctx.send("Failed to remove role to user, prehaps my role isn't high enough in the hierachy.")
+             return
+
+        # Log changes to prevent mod abuse
         await modlogs.send(ctx.author.name + " reinstated " + user.name + "'s access to the speedrunning channels. Reason: " + reason)
+
         # Attempt to DM user
         try:
             await user.send("Your access to the speedrunning channels was reinstated. Given reason: "+reason)
@@ -120,9 +143,17 @@ class Moderation(commands.Cog):
         if reason == None:
             reason = "No reason provided."
         modlogs = discord.utils.get(ctx.guild.channels, id=int(MOD_LOGGING_CHANNEL))
+
         # Blacklist user via function
-        await blacklist(ctx, int(NO_VC_ROLE), user.id, reason)
+        try: 
+            await blacklist(ctx, int(NO_VC_ROLE), user.id, reason)
+        except:
+             await ctx.send("Failed to add role to user, prehaps my role isn't high enough in the hierachy.")
+             return
+
+        # Log changes to prevent mod abuse
         await modlogs.send(ctx.author.name + " removed " + user.name + "'s access to the voice channels. Reason: " + reason)
+
         # Attempt to DM user
         try:
             await user.send("Your access to the voice channels was revoked. Given reason: "+reason)
@@ -136,9 +167,17 @@ class Moderation(commands.Cog):
         if reason == None:
             reason = "No reason provided."
         modlogs = discord.utils.get(ctx.guild.channels, id=int(MOD_LOGGING_CHANNEL))
-        # Blacklist user via function
-        await unblacklist(ctx, int(NO_VC_ROLE), user.id, reason)
+        # unblacklist user via function
+
+        try: 
+            await unblacklist(ctx, int(NO_VC_ROLE), user.id, reason)
+        except:
+             await ctx.send("Failed to remove role to user, prehaps my role isn't high enough in the hierachy.")
+             return
+
+        # Log changes to prevent mod abuse
         await modlogs.send(ctx.author.name + " reinstated " + user.name + "'s access to the voice channels. Reason: " + reason)
+
         # Attempt to DM user
         try:
             await user.send("Your access to the voice channels was reinstated. Given reason: "+reason)
@@ -152,9 +191,17 @@ class Moderation(commands.Cog):
         if reason == None:
             reason = "No reason provided."
         modlogs = discord.utils.get(ctx.guild.channels, id=int(MOD_LOGGING_CHANNEL))
+
         # Blacklist user via function
-        await blacklist(ctx, int(NO_APPEALS_ROLE), user.id, reason)
+        try: 
+            await blacklist(ctx, int(NO_APPEALS_ROLE), user.id, reason)
+        except:
+             await ctx.send("Failed to add role to user, prehaps my role isn't high enough in the hierachy.")
+             return
+
+        # Log changes to prevent mod abuse
         await modlogs.send(ctx.author.name + " removed " + user.name + "'s access to the appeals channel. Reason: " + reason)
+        
         # Attempt to DM user
         try:
             await user.send("Your access to the appeals channel was revoked. Given reason: "+reason)
@@ -168,9 +215,17 @@ class Moderation(commands.Cog):
         if reason == None:
             reason = "No reason provided."
         modlogs = discord.utils.get(ctx.guild.channels, id=int(MOD_LOGGING_CHANNEL))
-        # Blacklist user via function
-        await unblacklist(ctx, int(NO_APPEALS_ROLE), user.id, reason)
+
+        # unblacklist user via function
+        try: 
+            await unblacklist(ctx, int(NO_APPEALS_ROLE), user.id, reason)
+        except:
+             await ctx.send("Failed to remove role to user, prehaps my role isn't high enough in the hierachy.")
+             return
+
+        # Log changes to prevent mod abuse
         await modlogs.send(ctx.author.name + " reinstated " + user.name + "'s access to the voice channels. Reason: " + reason)
+
         # Attempt to DM user
         try:
             await user.send("Your access to the appeals channel was reinstated. Given reason: "+reason)
