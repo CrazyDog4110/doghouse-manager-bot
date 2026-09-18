@@ -23,20 +23,10 @@ bot = commands.Bot(command_prefix=PREFIX, intents=intents)
 async def on_ready():
     await bot.load_extension('Cogs.Moderation')
     await bot.load_extension('Cogs.Memes')
+    await bot.load_extension('Cogs.Utilities')
     voiceChannel = bot.get_channel(1464761761428275431)
     await voiceChannel.connect()
     print(f'We have logged in as {bot.user}')
-
-@bot.command()
-@commands.is_owner()
-async def stop(ctx):
-    if ctx.author.id == bot.owner_id:
-        await ctx.send("Shutting Down...")
-        await ctx.bot.close()
-        quit()
-    else:
-         ctx.send("No lol")
-         return
 
 @bot.command()
 async def comeng(ctx):
