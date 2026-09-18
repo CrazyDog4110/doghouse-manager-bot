@@ -67,5 +67,10 @@ class Memes(commands.Cog):
     async def checkpoint(self, ctx):
         await ctx.send("https://www.twitch.tv/bfrawg6/clip/PuzzledCuriousNarwhalBrainSlug-6ViPGeFh9XNu-OTE <@1228864356305866792> EXPLAIN", allowed_mentions=discord.AllowedMentions.none()) 
 
+    @commands.command(aliases=["67"])
+    async def sixseven(self, ctx):
+        await ctx.send("Yo mods can we ban this hooligan please?")
+    
+
 async def setup(bot):
     await bot.add_cog(Memes(bot))
