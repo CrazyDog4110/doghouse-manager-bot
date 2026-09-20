@@ -70,6 +70,14 @@ class Memes(commands.Cog):
     @commands.command(aliases=["67"])
     async def sixseven(self, ctx):
         await ctx.send("Yo mods can we ban this hooligan please?")
+
+    @commands.command()
+    async def gillette(self, ctx, money: int):
+        amount = money/3.25
+        if amount < 1:
+            await ctx.send("Wow u so broke can't even afford an 8 pack of Gillette Super Thin Long Handle Disposable Razors")
+        else:
+            await ctx.send("You can afford "+str(amount)+" 8 pack('s) of Gillette Super Thin Long Handle Disposable Razors")
     
 
 async def setup(bot):
