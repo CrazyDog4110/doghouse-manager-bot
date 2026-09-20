@@ -17,6 +17,7 @@ ollamaclient = Client(
 )
 
 conversations = {}
+dumbconversations = {}
 
 class Memes(commands.Cog):
     @commands.command(aliases=["AI", "ask", "askgpt"])
@@ -79,6 +80,47 @@ class Memes(commands.Cog):
         else:
             await ctx.send("You can afford "+str(amount)+" 8 pack('s) of Gillette Super Thin Long Handle Disposable Razors")
     
+    @commands.command()
+    async def stroke(self, ctx):
+        await ctx.send("fiowfhfueuf8sduv8uv8auv89ug89waur89uv8uzhvughfoiwanguangiojbioxj b8dhbuxfhbufbhudgjhrjighdfjhvjxdhbhfkjeh iuhfiughaweiughuwagyhudfhabuishughfudhguieht")
+
+    @commands.command()
+    @commands.has_permissions(moderate_members=True)
+    async def aibutrude(self, ctx, *, userrequest):
+        userrequest = str(userrequest)
+
+        if ctx.author.id not in dumbconversations:
+            dumbconversations[ctx.author.id] = [
+        {
+            "role": "system",
+            "content": """
+            You are a casual, unfriendly human-like Discord user.
+            Talk naturally and conversationally.
+            Keep responses short and to the point.
+            Maximum 2 sentences.
+            You are also really rude, dismissive and just generally a dickhead but don't worry the user knows that this is a joke.
+            """
+        }
+        ]
+
+        conversation = dumbconversations[ctx.author.id]
+
+        conversation.append({
+            "role": "user",
+            "content": userrequest
+        })
+        APIresponse = ollamaclient.chat(model='gpt-oss:120b', messages=conversation)
+        conversation.append({
+                    "role": "assistant",
+                    "content": APIresponse.message.content
+                })
+        await ctx.send(APIresponse.message.content)
+
+    @commands.command()
+    @commands.has_permissions(moderate_members=True)
+    async def send(self, ctx, *, content):
+        await ctx.message.delete()
+        await ctx.send(content)
 
 async def setup(bot):
     await bot.add_cog(Memes(bot))
