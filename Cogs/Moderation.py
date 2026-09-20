@@ -12,6 +12,8 @@ NO_APPEALS_ROLE = os.getenv("NO_APPEALS_ROLE")
 ERROR_LOGGING_CHANNEL = os.getenv("ERROR_LOGGING_CHANNEL")
 MOD_LOGGING_CHANNEL = os.getenv("MOD_LOGGING_CHANNEL")
 
+BLACKLIST_ROLES = [NO_TRAIN_ROLE, NO_SPEEDRUN_ROLE, NO_VC_ROLE, NO_APPEALS_ROLE]
+
 async def blacklist(ctx, role, user, reason):
     role = discord.utils.get(ctx.guild.roles, id=int(role))
     user = await ctx.guild.fetch_member(user)
@@ -259,31 +261,13 @@ class Moderation(commands.Cog):
     @commands.Cog.listener()
     async def on_member_join(self, member):
         # Obtain user id's in blacklist file
-        with open(str(NO_TRAIN_ROLE)+".txt", "r") as f:
-            data = f.read().splitlines()
-            # If the user who just joined has their ID in the blacklist file, add the role back.
-            if str(member.id) in data:
-                notrainrole = discord.utils.get(member.guild.roles, id=int(NO_TRAIN_ROLE))
-                await member.add_roles(notrainrole)
-        # do the same for speedrunning role
-        with open(str(NO_SPEEDRUN_ROLE)+".txt", "r") as f:
+        for role in BLACKLIST_ROLES:
+            with open(str(role)+".txt", "r") as f:
                 data = f.read().splitlines()
                 # If the user who just joined has their ID in the blacklist file, add the role back.
                 if str(member.id) in data:
-                    nospeedrunrole = discord.utils.get(member.guild.roles, id=int(NO_SPEEDRUN_ROLE))
-                    await member.add_roles(nospeedrunrole)
-        with open(str(NO_VC_ROLE)+".txt", "r") as f:
-                    data = f.read().splitlines()
-                    # If the user who just joined has their ID in the blacklist file, add the role back.
-                    if str(member.id) in data:
-                        novcrole = discord.utils.get(member.guild.roles, id=int(NO_VC_ROLE))
-                        await member.add_roles(novcrole)
-        with open(str(NO_APPEALS_ROLE)+".txt", "r") as f:
-                            data = f.read().splitlines()
-                            # If the user who just joined has their ID in the blacklist file, add the role back.
-                            if str(member.id) in data:
-                                noappealsrole = discord.utils.get(member.guild.roles, id=int(NO_APPEALS_ROLE))
-                                await member.add_roles(noappealsrole)
+                    blacklist_role = discord.utils.get(member.guild.roles, id=int(role))
+                    await member.add_roles(blacklist_role)
         if member.id == 1228864356305866792:
             bfrawgrole = discord.utils.get(member.guild.roles, id=int(1546083621868150834))
             await member.add_roles(bfrawgrole)
