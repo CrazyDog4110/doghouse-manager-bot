@@ -24,6 +24,7 @@ async def on_ready():
     await bot.load_extension('Cogs.Moderation')
     await bot.load_extension('Cogs.Memes')
     await bot.load_extension('Cogs.Utilities')
+    await bot.load_extension('Cogs.Tags')
     voiceChannel = bot.get_channel(1464761761428275431)
     await voiceChannel.connect()
     print(f'We have logged in as {bot.user}')
@@ -37,7 +38,7 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send(f"You do not have the required permissions to run this command!", ephemeral= True)
     elif isinstance(error, commands.MissingRequiredArgument):
-         await ctx.send(f"You are missing a required argument. Did you specify the user you wanted to run the action on?", ephemeral= True)
+         await ctx.send(str(error), ephemeral= True)
     elif isinstance(error, commands.CommandNotFound):
              pass
     else:
