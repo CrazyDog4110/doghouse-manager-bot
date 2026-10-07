@@ -74,7 +74,7 @@ class Memes(commands.Cog):
 
     @commands.command()
     async def gillette(self, ctx, money):
-        money.replace("$","")
+        money = money.replace("$","")
         money = float(money)
         amount = money/3.25
         if amount < 1:
