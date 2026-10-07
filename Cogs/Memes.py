@@ -73,7 +73,9 @@ class Memes(commands.Cog):
         await ctx.send("Yo mods can we ban this hooligan please?")
 
     @commands.command()
-    async def gillette(self, ctx, money: float):
+    async def gillette(self, ctx, money):
+        money.replace("$","")
+        money = float(money)
         amount = money/3.25
         if amount < 1:
             await ctx.send("Wow u so broke can't even afford an 8 pack of Gillette Super Thin Long Handle Disposable Razors")
