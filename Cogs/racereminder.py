@@ -21,7 +21,7 @@ class racereminder(commands.Cog):
             if self.last_sent == now.date():
                 return
             channel = self.bot.get_channel(int(RACE_CHANNEL))
-            await channel.send("Hiya @everyone\nI have a race against 4lettaz in about 10 minutes over at https://twitch.tv/smo_community\nIf you're interest please go take a look to support me :)\n-# Future pings will have a ping role instead of an everyone ping I just haven't set it up yet.")
+            await channel.send("Hiya @everyone\nI have a race against 4lettaz in about 10 minutes over at https://twitch.tv/smo_community\nIf you're interested please go take a look to support me :)\n-# Future pings will have a ping role instead of an everyone ping I just haven't set it up yet.")
             self.last_sent = now.date()
 
     @reminder.before_loop
