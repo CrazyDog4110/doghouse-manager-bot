@@ -22,17 +22,21 @@ bot = commands.Bot(command_prefix=PREFIX, intents=intents)
 @bot.event
 async def on_ready():
     await bot.load_extension('Cogs.Moderation')
-    await bot.load_extension('Cogs.Memes')
     await bot.load_extension('Cogs.Utilities')
     await bot.load_extension('Cogs.Tags')
+    await bot.load_extension('Cogs.Roles')
+    await bot.load_extension('Cogs.Memes')
+    await bot.load_extension('Cogs.racereminder')
+    '''
     voiceChannel = bot.get_channel(1464761761428275431)
     await voiceChannel.connect()
+    '''
     print(f'We have logged in as {bot.user}')
 
 @bot.command()
 async def comeng(ctx):
      await ctx.send("Comeng is a bot for Crazy_Dog's discord server.\nThe source code is available at: https://github.com/CrazyDog4110/doghouse-manager-bot")
-
+'''
 @bot.event       
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
@@ -46,5 +50,6 @@ async def on_command_error(ctx, error):
          await ctx.send(str(error))
          await logchannel.send("An exception occoured: "+ str(error))
          print(str(error))
+    '''
 
 bot.run(TOKEN)
