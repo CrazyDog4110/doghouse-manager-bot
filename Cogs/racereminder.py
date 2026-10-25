@@ -16,7 +16,8 @@ class racereminder(commands.Cog):
 
     @tasks.loop(seconds=15)
     async def reminder(self):
-        now = datetime.datetime.now()
+        timezone = datetime.timezone(datetime.timedelta(hours=11))
+        now = datetime.datetime.now(tz=timezone)
         if now.weekday() == 0 and now.hour == 9 and now.minute == 20:
             if self.last_sent == now.date():
                 return
