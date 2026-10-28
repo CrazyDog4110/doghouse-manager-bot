@@ -18,11 +18,11 @@ class racereminder(commands.Cog):
     async def reminder(self):
         timezone = datetime.timezone(datetime.timedelta(hours=11))
         now = datetime.datetime.now(tz=timezone)
-        if now.weekday() == 0 and now.hour == 9 and now.minute == 20:
+        if now.weekday() == 5 and now.hour == 1 and now.minute == 50:
             if self.last_sent == now.date():
                 return
             channel = self.bot.get_channel(int(RACE_CHANNEL))
-            await channel.send("Hiya @everyone\nI have a race against 4lettaz in about 10 minutes over at https://twitch.tv/smo_community\nIf you're interested please go take a look to support me :)\n-# Future pings will have a ping role instead of an everyone ping I just haven't set it up yet.")
+            await channel.send("Hiya @everyone\nI have a race against egg guy in about 10 minutes over at https://twitch.tv/smo_community\nIf you're interested please go take a look to support me :)\n-# Future pings will have a ping role instead of an everyone ping I just haven't set it up yet.")
             self.last_sent = now.date()
 
     @reminder.before_loop
