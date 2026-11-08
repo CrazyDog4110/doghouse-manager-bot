@@ -25,7 +25,7 @@ async def on_ready():
     await bot.load_extension('Cogs.Utilities')
     await bot.load_extension('Cogs.Tags')
     await bot.load_extension('Cogs.Memes')
-    await bot.load_extension('Cogs.racereminder')
+    # await bot.load_extension('Cogs.racereminder')
     '''
     voiceChannel = bot.get_channel(1464761761428275431)
     await voiceChannel.connect()
